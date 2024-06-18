@@ -1,0 +1,172 @@
+Java Project Development 
+========================
+
+Project Title		:	Employee Management System 
+
+Environments		:	Java 8, ReactJS, Spring Boot
+
+Database		:	MySQL 
+
+IDE's			:	VSC , STS or Intellij
+
+Tools			:	Maven, POSTMAN, GIT/GITHUB 
+
+Client			:	Coderu, Bridgesoft, WinIT
+
+Duration		:	1 Month 
+
+
+BackEnd
+=======
+To create backend application using spring boot we need to follow layered architecture.
+
+Diagram: layered-architecture 
+
+
+Backend Project structure 
+-------------------------
+
+springboot-backend
+|
+|---src/main/java
+	|
+	|---com.ihub.www
+		|
+		|---SpringbootBackendApplication.java
+	|
+	|---com.ihub.www.controller
+		|
+		|---EmployeeController.java
+	|
+	|---com.ihub.www.service
+		|
+		|---EmployeeService.java
+	|
+	|---com.ihub.www.repo
+		|
+		|---EmployeeRepository.java (interface)
+	|
+	|---com.ihub.www.model
+		|
+		|---Employee.java 
+	|
+	|---com.ihub.www.exception 
+		|
+		|---ResourceNotFoundException.java 
+|
+|---src/main/resources
+	|
+	|---application.properties 
+
+step1:
+-----
+	Create a spring boot starter project i.e springboot-backend.
+	ex:
+		starter:
+				spring web
+				spring data jpa
+				lombok
+				Mysql driver
+
+step2:
+-----
+	Connection to MySQL database to create a schema and to use it. 	
+	ex:
+		MYSQL> create schema employee_management_system;
+
+		MYSQL> use employee_management_system;
+
+
+step3:
+-----
+	Create a employee table along with records.
+	ex:
+		create table employee(
+				id integer(3) AUTO_INCREMENT,
+				first_name varchar(10),
+				last_name varchar(10),
+				email  varchar(15),
+				primary key(id)
+			);
+
+		insert into employee values(1,'Alan','Morries','alan@gmail.com');
+		insert into employee values(2,'Erick','Anderson','erick@gmail.com');
+		commit;
+
+		select * from employee;
+
+step4:
+------
+	Create a model class inside "com.ihub.www.model" package.
+
+Employee.java
+-------------
+package com.ihub.www.model;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Table
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Employee 
+{
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
+	
+	@Column
+	private String firstName;
+	
+	@Column
+	private String lastName;
+	
+	@Column
+	private String email;
+}
+
+step5:
+------
+	Create a Repository inside "com.ihub.www.repo" package.
+
+EmployeeRepository.java
+-----------------------
+package com.ihub.www.repo;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.ihub.www.model.Employee;
+
+@Repository
+public interface EmployeeRepository extends JpaRepository<Employee, Long>
+{
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
